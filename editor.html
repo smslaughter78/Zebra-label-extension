@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Print Shipping Label</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Print Shipping Label</h1>
+      <span id="status" role="status"></span>
+      <span class="spacer"></span>
+      <label class="file-btn">Open file…<input id="file" type="file" accept="application/pdf,image/*" hidden></label>
+    </header>
+
+    <main>
+      <section id="source-pane">
+        <div class="pane-head">
+          <strong>Source</strong>
+          <span class="hint">Drag the box or its corners to adjust the crop. Drag on empty space to draw a new one.</span>
+          <span class="spacer"></span>
+          <span id="pager" hidden>
+            <button id="prev" type="button" aria-label="Previous page">‹</button>
+            <span id="page-label"></span>
+            <button id="next" type="button" aria-label="Next page">›</button>
+          </span>
+        </div>
+        <div id="stage-wrap">
+          <div id="empty">
+            <p><strong>No label loaded.</strong></p>
+            <p>Drop a PDF or image here, paste one (Ctrl+V), or use “Open file…”.</p>
+          </div>
+          <div id="stage" hidden>
+            <canvas id="page-canvas"></canvas>
+            <div id="crop">
+              <i data-h="nw"></i><i data-h="n"></i><i data-h="ne"></i><i data-h="e"></i>
+              <i data-h="se"></i><i data-h="s"></i><i data-h="sw"></i><i data-h="w"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside id="output-pane">
+        <div class="pane-head"><strong>4 × 6 label</strong></div>
+        <div id="preview-wrap"><canvas id="preview"></canvas></div>
+
+        <div class="controls">
+          <div class="row">
+            <button id="rotate" type="button">Rotate 90°</button>
+            <button id="redetect" type="button">Auto-detect</button>
+            <button id="fullpage" type="button">Whole page</button>
+          </div>
+          <label class="row"><input id="bw" type="checkbox"> Pure black &amp; white (sharper on thermal)</label>
+          <label class="row sub" id="thr-row">Darkness
+            <input id="threshold" type="range" min="60" max="230" step="5">
+          </label>
+          <label class="row">Printer resolution
+            <select id="dpi">
+              <option value="203">203 dpi (most Zebra)</option>
+              <option value="300">300 dpi</option>
+              <option value="600">600 dpi</option>
+            </select>
+          </label>
+          <label class="row">Margin
+            <select id="margin">
+              <option value="0">None</option>
+              <option value="0.05">0.05 in</option>
+              <option value="0.1">0.1 in</option>
+              <option value="0.2">0.2 in</option>
+            </select>
+          </label>
+          <label class="row" id="all-row" hidden><input id="all-pages" type="checkbox"> Print every page as its own label</label>
+          <label class="row"><input id="auto-print" type="checkbox"> Open the print dialog automatically when a label is found</label>
+          <button id="print" type="button" class="primary" disabled>Print</button>
+          <p class="note">In Chrome’s print dialog pick your Zebra printer, paper size 4 × 6, margins “None”, scale 100%. Chrome remembers these for next time.</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div id="print-area"></div>
+  <script type="module" src="editor.js"></script>
+</body>
+</html>
